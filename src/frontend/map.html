@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CivicReport - Community Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #c8d5b9 0%, #a8b99c 30%, #8fa685 100%);
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Organic background elements */
+        .bg-decoration {
+            position: absolute;
+            border-radius: 50% 40% 60% 30%;
+            background: rgba(255, 244, 230, 0.15);
+            backdrop-filter: blur(10px);
+            animation: organicFloat 8s ease-in-out infinite;
+            z-index: 1;
+        }
+
+        .bg-decoration:nth-child(1) {
+            width: 250px;
+            height: 200px;
+            top: 15%;
+            left: -5%;
+            animation-delay: 0s;
+            background: rgba(244, 231, 218, 0.2);
+        }
+
+        .bg-decoration:nth-child(2) {
+            width: 180px;
+            height: 220px;
+            bottom: 20%;
+            right: -8%;
+            animation-delay: -4s;
+            background: rgba(200, 213, 185, 0.25);
+        }
+
+        .bg-decoration:nth-child(3) {
+            width: 120px;
+            height: 140px;
+            top: 60%;
+            left: 10%;
+            animation-delay: -2s;
+            background: rgba(255, 244, 230, 0.18);
+        }
+
+        @keyframes organicFloat {
+            0%, 100% { 
+                transform: translateY(0) rotate(0deg) scale(1); 
+            }
+            25% { 
+                transform: translateY(-15px) rotate(2deg) scale(1.05); 
+            }
+            50% { 
+                transform: translateY(-25px) rotate(-1deg) scale(0.98); 
+            }
+            75% { 
+                transform: translateY(-10px) rotate(1deg) scale(1.02); 
+            }
+        }
+
+        .header-container {
+            background: rgba(255, 248, 240, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 32px;
+            padding: 25px 45px;
+            box-shadow: 
+                0 20px 40px rgba(139, 166, 133, 0.15),
+                0 8px 16px rgba(139, 166, 133, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            max-width: 1200px;
+            margin: 0 auto 30px auto;
+            border: 1px solid rgba(244, 231, 218, 0.3);
+            transition: all 0.4s ease;
+            position: relative;
+            z-index: 10;
+        }
+
+        .header-container:hover {
+            transform: translateY(-2px);
+            box-shadow: 
+                0 25px 50px rgba(139, 166, 133, 0.2),
+                0 12px 24px rgba(139, 166, 133, 0.15);
+        }
+
+        .header-container::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: -1px;
+            right: -1px;
+            bottom: -1px;
+            background: linear-gradient(135deg, rgba(244, 231, 218, 0.5), rgba(200, 213, 185, 0.3));
+            border-radius: 32px;
+            z-index: -1;
+            opacity: 0.6;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .page-header h1 {
+            font-family: 'Crimson Text', serif;
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: #5a6b4f;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .page-header .subtitle {
+            color: #7a8471;
+            font-size: 1.1rem;
+            font-weight: 400;
+            line-height: 1.5;
+        }
+
+        .header-decoration {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin: 15px 0 10px;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #c8a882;
+        }
+
+        .dot:nth-child(2) {
+            background: #d4b896;
+            transform: scale(1.2);
+        }
+
+        .dot:nth-child(3) {
+            background: #a8b99c;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            font-family: 'Crimson Text', serif;
+            font-weight: 600;
+            color: #5a6b4f;
+            text-decoration: none;
+            font-size: 1.1rem;
+            padding: 10px 18px;
+            border-radius: 16px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        nav a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(168, 185, 156, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        nav a:hover::before {
+            left: 100%;
+        }
+
+        nav a:hover {
+            background: linear-gradient(135deg, #a8b99c, #8fa685);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(168, 185, 156, 0.25);
+        }
+
+        .map-container {
+            background: rgba(255, 248, 240, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 32px;
+            padding: 30px;
+            box-shadow: 
+                0 20px 40px rgba(139, 166, 133, 0.15),
+                0 8px 16px rgba(139, 166, 133, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            max-width: 1200px;
+            margin: 0 auto;
+            border: 1px solid rgba(244, 231, 218, 0.3);
+            transition: all 0.4s ease;
+            position: relative;
+            z-index: 10;
+        }
+
+        .map-container::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: -1px;
+            right: -1px;
+            bottom: -1px;
+            background: linear-gradient(135deg, rgba(244, 231, 218, 0.5), rgba(200, 213, 185, 0.3));
+            border-radius: 32px;
+            z-index: -1;
+            opacity: 0.6;
+        }
+
+        #map { 
+            height: 70vh; 
+            min-height: 500px;
+            border-radius: 24px; 
+            box-shadow: 
+                0 12px 30px rgba(139, 166, 133, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            border: 2px solid rgba(244, 231, 218, 0.4);
+            overflow: hidden;
+        }
+
+        /* Custom popup styling */
+        .leaflet-popup-content-wrapper {
+            background: rgba(255, 248, 240, 0.98);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            box-shadow: 
+                0 15px 35px rgba(139, 166, 133, 0.2),
+                0 5px 15px rgba(139, 166, 133, 0.1);
+            border: 1px solid rgba(244, 231, 218, 0.5);
+        }
+
+        .leaflet-popup-tip {
+            background: rgba(255, 248, 240, 0.98);
+            border: 1px solid rgba(244, 231, 218, 0.5);
+        }
+
+        .popup-content {
+            font-family: 'Inter', sans-serif;
+            padding: 15px;
+            max-width: 280px;
+        }
+
+        .popup-content strong {
+            font-family: 'Crimson Text', serif;
+            font-size: 1.1rem;
+            color: #5a6b4f;
+            display: block;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .popup-content img { 
+            max-width: 100%; 
+            height: auto;
+            display: block; 
+            margin: 12px 0; 
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(90, 107, 79, 0.15);
+        }
+
+        .popup-content p {
+            color: #7a8471;
+            line-height: 1.5;
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+        }
+
+        .popup-content textarea { 
+            width: 100%; 
+            min-height: 80px;
+            padding: 12px;
+            border: 2px solid #e8ddc7;
+            border-radius: 12px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            resize: vertical;
+            background: rgba(248, 245, 240, 0.8);
+            color: #5a6b4f;
+        }
+
+        .popup-content textarea:focus {
+            outline: none;
+            border-color: #c8a882;
+            box-shadow: 0 0 0 3px rgba(200, 168, 130, 0.15);
+        }
+
+        .total-upvotes {
+            background: linear-gradient(135deg, #f0f4ed, #e8f0e3);
+            padding: 8px 15px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            color: #5a6b4f;
+            font-weight: 500;
+            margin: 12px 0;
+            border: 1px solid rgba(200, 213, 185, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .total-upvotes::before {
+            content: '🌱';
+            font-size: 1rem;
+        }
+
+        .upvote-btn {
+            background: linear-gradient(135deg, #8fa685 0%, #7a8471 100%);
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 14px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+            margin-top: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 4px 12px rgba(143, 166, 133, 0.25);
+        }
+
+        .upvote-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(143, 166, 133, 0.35);
+            background: linear-gradient(135deg, #7a8471 0%, #6b7562 100%);
+        }
+
+        .upvote-btn:disabled {
+            background: linear-gradient(135deg, #c8d5b9, #a8b99c);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Loading state */
+        .loading-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 200px;
+            color: #7a8471;
+            font-size: 1.1rem;
+            gap: 15px;
+        }
+
+        .loading-spinner {
+            width: 32px;
+            height: 32px;
+            border: 3px solid rgba(139, 166, 133, 0.2);
+            border-top: 3px solid #8fa685;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Toast notifications */
+        .toast {
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            padding: 18px 28px;
+            border-radius: 16px;
+            color: white;
+            font-weight: 500;
+            z-index: 1000;
+            transform: translateX(400px);
+            transition: all 0.4s ease;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .toast.success {
+            background: linear-gradient(135deg, #8fa685, #7a8471);
+        }
+
+        .toast.error {
+            background: linear-gradient(135deg, #d4a574, #c8a882);
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+
+            .header-container,
+            .map-container {
+                padding: 20px;
+                margin: 0 auto 20px auto;
+                border-radius: 24px;
+            }
+
+            .page-header h1 {
+                font-size: 2rem;
+            }
+
+            nav {
+                gap: 15px;
+            }
+
+            nav a {
+                padding: 8px 14px;
+                font-size: 1rem;
+            }
+
+            #map {
+                height: 60vh;
+                min-height: 400px;
+            }
+
+            .popup-content {
+                max-width: 220px;
+            }
+        }
+
+        /* Accessibility improvements */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        /* Map controls styling */
+        .leaflet-control-zoom a {
+            background: rgba(255, 248, 240, 0.95) !important;
+            border: 1px solid rgba(244, 231, 218, 0.5) !important;
+            color: #5a6b4f !important;
+            transition: all 0.3s ease !important;
+        }
+
+        .leaflet-control-zoom a:hover {
+            background: rgba(168, 185, 156, 0.9) !important;
+            color: white !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-decoration"></div>
+    <div class="bg-decoration"></div>
+    <div class="bg-decoration"></div>
+
+    <div class="header-container">
+        <div class="page-header">
+            <h1>Community Map</h1>
+            <div class="header-decoration">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+            <p class="subtitle">Explore and nurture your neighborhood's shared concerns</p>
+        </div>
+
+        <nav>
+            <a href="index.html">
+                <i class="fas fa-home" style="margin-right: 6px;"></i>
+                Home
+            </a>
+            <a href="map.html">
+                <i class="fas fa-map-marked-alt" style="margin-right: 6px;"></i>
+                Map
+            </a>
+            <a href="report.html">
+                <i class="fas fa-plus-circle" style="margin-right: 6px;"></i>
+                Submit Report
+            </a>
+            <a href="profile.html">
+                <i class="fas fa-user-circle" style="margin-right: 6px;"></i>
+                Profile
+            </a>
+            <a href="#" onclick="logout()">
+                <i class="fas fa-sign-out-alt" style="margin-right: 6px;"></i>
+                Logout
+            </a>
+        </nav>
+    </div>
+
+    <div class="map-container">
+        <div id="map">
+            <div class="loading-container">
+                <div class="loading-spinner"></div>
+                <span>Loading your community map...</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        // Check authentication - keeping original localStorage logic
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+            showToast("Please sign in to view the community map", 'error');
+            setTimeout(() => {
+                window.location.href = "login.html";
+            }, 2000);
+        }
+
+        // Initialize map
+        const map = L.map('map').setView([0, 0], 13);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Get user location
+        navigator.geolocation.getCurrentPosition(pos => {
+            const { latitude, longitude } = pos.coords;
+            map.setView([latitude, longitude], 15);
+
+            // User location marker with custom styling
+            const userMarker = L.marker([latitude, longitude], {
+                icon: L.icon({ 
+                    iconUrl: "https://maps.google.com/mapfiles/ms/icons/blue-dot.png", 
+                    iconSize: [32, 32],
+                    iconAnchor: [16, 16]
+                })
+            }).addTo(map).bindPopup(`
+                <div class="popup-content">
+                    <strong>🏠 You are here</strong>
+                    <p>Your current location in the community</p>
+                </div>
+            `);
+        }, (error) => {
+            console.error("Geolocation error:", error);
+            showToast("Unable to get your location. Using default view.", 'error');
+            map.setView([40.7128, -74.0060], 13); // Default to NYC
+        });
+
+        // Fetch and display reports
+        async function fetchReports() {
+            try {
+                const response = await fetch("http://127.0.0.1:8000/reports", {
+                    headers: { "Authorization": "Bearer " + token }
+                });
+                
+                if (response.status === 401) {
+                    showToast("Session expired. Please log in again.", 'error');
+                    localStorage.removeItem("token");
+                    setTimeout(() => {
+                        window.location.href = "login.html";
+                    }, 2000);
+                    return;
+                }
+
+                if (!response.ok) {
+                    throw new Error("Failed to fetch reports");
+                }
+
+                const reports = await response.json();
+                
+                // Clear loading state
+                document.querySelector('.loading-container')?.remove();
+                
+                for (const report of reports) {
+                    addReportMarker(report);
+                }
+
+                if (reports.length === 0) {
+                    showToast("No community reports found yet. Be the first to share!", 'info');
+                }
+                
+            } catch (error) {
+                console.error("Error fetching reports:", error);
+                showToast("Unable to load community reports. Please try again.", 'error');
+                document.querySelector('.loading-container')?.remove();
+            }
+        }
+
+        async function addReportMarker(report) {
+            const popup = document.createElement("div");
+            popup.className = "popup-content";
+
+            popup.innerHTML = `
+                <strong>${report.title}</strong>
+                <img src="http://127.0.0.1:8000/${report.image_url}" alt="Report image" />
+                <p>${report.description}</p>
+                <p><strong>Category:</strong> ${report.category || 'Uncategorized'}</p>
+                <p><strong>Status:</strong> ${report.status || 'Pending'}</p>
+                <div class="total-upvotes">Community Support: ${report.upvotes || 0}</div>
+                <button class="upvote-btn" data-report-id="${report.id}">
+                    <i class="fas fa-heart"></i>
+                    Support This
+                </button>
+            `;
+
+            const marker = L.marker([report.latitude, report.longitude], {
+                icon: L.icon({
+                    iconUrl: "https://maps.google.com/mapfiles/ms/icons/red-dot.png",
+                    iconSize: [32, 32],
+                    iconAnchor: [16, 32]
+                })
+            }).addTo(map).bindPopup(popup);
+
+            marker.on("popupopen", async () => {
+                const upvoteBtn = popup.querySelector(".upvote-btn");
+                const totalUpvotes = popup.querySelector(".total-upvotes");
+                const currentReportId = report.id;
+
+                // Check if user already voted
+                try {
+                    const response = await fetch(`http://127.0.0.1:8000/has_voted/${currentReportId}`, {
+                        headers: { "Authorization": "Bearer " + token }
+                    });
+                    const data = await response.json();
+                    
+                    if (data.has_voted) {
+                        upvoteBtn.innerHTML = `<i class="fas fa-check"></i> Supported`;
+                        upvoteBtn.disabled = true;
+                    }
+                } catch (error) {
+                    console.error("Error checking vote status:", error);
+                }
+
+                upvoteBtn.addEventListener("click", async () => {
+                    try {
+                        const response = await fetch("http://127.0.0.1:8000/vote", {
+                            method: "POST",
+                            headers: {
+                                "Authorization": "Bearer " + token,
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify({ report_id: currentReportId })
+                        });
+
+                        const data = await response.json();
+
+                        if (!response.ok) {
+                            if (data.detail === "User has already voted for this report") {
+                                upvoteBtn.innerHTML = `<i class="fas fa-check"></i> Supported`;
+                                upvoteBtn.disabled = true;
+                                showToast("You've already supported this report", 'info');
+                            } else {
+                                throw new Error(data.detail || "Failed to vote");
+                            }
+                            return;
+                        }
+
+                        if (data.has_voted) {
+                            // Fetch updated vote count
+                            const voteCountResponse = await fetch(`http://127.0.0.1:8000/vote_count/${currentReportId}`, {
+                                headers: { "Authorization": "Bearer " + token }
+                            });
+                            const voteData = await voteCountResponse.json();
+                            
+                            totalUpvotes.innerHTML = `Community Support: ${voteData.upvotes}`;
+                            upvoteBtn.innerHTML = `<i class="fas fa-check"></i> Supported`;
+                            upvoteBtn.disabled = true;
+                            
+                            showToast("Thank you for supporting your community!", 'success');
+                        }
+
+                    } catch (error) {
+                        console.error("Vote error:", error);
+                        showToast("Unable to register your support. Please try again.", 'error');
+                    }
+                });
+            });
+        }
+
+        // Toast notification system
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            const icon = type === 'success' ? 'check-circle' : 
+                        type === 'error' ? 'exclamation-circle' : 'info-circle';
+            toast.innerHTML = `
+                <i class="fas fa-${icon}" style="margin-right: 8px;"></i>
+                ${message}
+            `;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => toast.classList.add('show'), 100);
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => document.body.removeChild(toast), 400);
+            }, 4500);
+        }
+
+        // Logout function
+        function logout() {
+            localStorage.removeItem("token");
+            showToast("Thank you for caring about your community!", 'success');
+            setTimeout(() => {
+                window.location.href = "login.html";
+            }, 1500);
+        }
+
+        // Initialize
+        fetchReports();
+
+        // Add gentle entry animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const containers = document.querySelectorAll('.header-container, .map-container');
+            containers.forEach((container, index) => {
+                container.style.opacity = '0';
+                container.style.transform = 'translateY(40px) scale(0.98)';
+                
+                setTimeout(() => {
+                    container.style.transition = 'all 0.8s cubic-bezier(0.22, 1, 0.36, 1)';
+                    container.style.opacity = '1';
+                    container.style.transform = 'translateY(0) scale(1)';
+                }, 150 + (index * 100));
+            });
+        });
+    </script>
+</body>
+</html>

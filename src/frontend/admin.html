@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CivicReport - Admin Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #c8d5b9 0%, #a8b99c 30%, #8fa685 100%);
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Organic background elements */
+        .bg-decoration {
+            position: absolute;
+            border-radius: 50% 40% 60% 30%;
+            background: rgba(255, 244, 230, 0.15);
+            backdrop-filter: blur(10px);
+            animation: organicFloat 8s ease-in-out infinite;
+            z-index: 1;
+        }
+
+        .bg-decoration:nth-child(1) {
+            width: 250px;
+            height: 200px;
+            top: 15%;
+            left: -5%;
+            animation-delay: 0s;
+            background: rgba(244, 231, 218, 0.2);
+        }
+
+        .bg-decoration:nth-child(2) {
+            width: 180px;
+            height: 220px;
+            bottom: 20%;
+            right: -8%;
+            animation-delay: -4s;
+            background: rgba(200, 213, 185, 0.25);
+        }
+
+        .bg-decoration:nth-child(3) {
+            width: 120px;
+            height: 140px;
+            top: 60%;
+            left: 10%;
+            animation-delay: -2s;
+            background: rgba(255, 244, 230, 0.18);
+        }
+
+        @keyframes organicFloat {
+            0%, 100% { 
+                transform: translateY(0) rotate(0deg) scale(1); 
+            }
+            25% { 
+                transform: translateY(-15px) rotate(2deg) scale(1.05); 
+            }
+            50% { 
+                transform: translateY(-25px) rotate(-1deg) scale(0.98); 
+            }
+            75% { 
+                transform: translateY(-10px) rotate(1deg) scale(1.02); 
+            }
+        }
+
+        .header-container {
+            background: rgba(255, 248, 240, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 32px;
+            padding: 25px 45px;
+            box-shadow: 
+                0 20px 40px rgba(139, 166, 133, 0.15),
+                0 8px 16px rgba(139, 166, 133, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            max-width: 1200px;
+            margin: 0 auto 30px auto;
+            border: 1px solid rgba(244, 231, 218, 0.3);
+            transition: all 0.4s ease;
+            position: relative;
+            z-index: 10;
+        }
+
+        .header-container:hover {
+            transform: translateY(-2px);
+            box-shadow: 
+                0 25px 50px rgba(139, 166, 133, 0.2),
+                0 12px 24px rgba(139, 166, 133, 0.15);
+        }
+
+        .header-container::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: -1px;
+            right: -1px;
+            bottom: -1px;
+            background: linear-gradient(135deg, rgba(244, 231, 218, 0.5), rgba(200, 213, 185, 0.3));
+            border-radius: 32px;
+            z-index: -1;
+            opacity: 0.6;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .page-header h1 {
+            font-family: 'Crimson Text', serif;
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: #5a6b4f;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .page-header .subtitle {
+            color: #7a8471;
+            font-size: 1.1rem;
+            font-weight: 400;
+            line-height: 1.5;
+        }
+
+        .header-decoration {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin: 15px 0 10px;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #c8a882;
+        }
+
+        .dot:nth-child(2) {
+            background: #d4b896;
+            transform: scale(1.2);
+        }
+
+        .dot:nth-child(3) {
+            background: #a8b99c;
+        }
+
+        .main-content {
+            background: rgba(255, 248, 240, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 32px;
+            padding: 40px;
+            box-shadow: 
+                0 20px 40px rgba(139, 166, 133, 0.15),
+                0 8px 16px rgba(139, 166, 133, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            max-width: 1200px;
+            margin: 0 auto 30px auto;
+            border: 1px solid rgba(244, 231, 218, 0.3);
+            transition: all 0.4s ease;
+            position: relative;
+            z-index: 10;
+        }
+
+        .main-content::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: -1px;
+            right: -1px;
+            bottom: -1px;
+            background: linear-gradient(135deg, rgba(244, 231, 218, 0.5), rgba(200, 213, 185, 0.3));
+            border-radius: 32px;
+            z-index: -1;
+            opacity: 0.6;
+        }
+
+        .admin-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .admin-header h2 {
+            font-family: 'Crimson Text', serif;
+            font-size: 2rem;
+            font-weight: 600;
+            color: #5a6b4f;
+            margin-bottom: 15px;
+            letter-spacing: -0.3px;
+        }
+
+        .admin-header p {
+            color: #7a8471;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .filters-section {
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 24px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(244, 231, 218, 0.4);
+        }
+
+        .filters-section h3 {
+            font-family: 'Crimson Text', serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #5a6b4f;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .filters-row {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .filter-group label {
+            font-weight: 500;
+            color: #5a6b4f;
+            font-size: 0.95rem;
+        }
+
+        .filter-group select {
+            padding: 10px 16px;
+            border: 2px solid rgba(168, 185, 156, 0.3);
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.8);
+            color: #5a6b4f;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            min-width: 140px;
+        }
+
+        .filter-group select:focus {
+            outline: none;
+            border-color: #8fa685;
+            box-shadow: 0 0 0 3px rgba(143, 166, 133, 0.1);
+        }
+
+        .btn {
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            font-size: 1rem;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #8fa685 0%, #7a8471 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #7a8471 0%, #6b7562 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(143, 166, 133, 0.3);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #c8a882 0%, #d4b896 100%);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: linear-gradient(135deg, #d4b896 0%, #c8a882 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(200, 168, 130, 0.3);
+        }
+
+        .btn-info {
+            background: linear-gradient(135deg, #a8b99c 0%, #8fa685 100%);
+            color: white;
+        }
+
+        .btn-info:hover {
+            background: linear-gradient(135deg, #8fa685 0%, #7a8471 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(168, 185, 156, 0.3);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .clustering-section {
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 24px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(244, 231, 218, 0.4);
+            text-align: center;
+        }
+
+        .clustering-section h3 {
+            font-family: 'Crimson Text', serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #5a6b4f;
+            margin-bottom: 15px;
+        }
+
+        .clustering-status {
+            color: #7a8471;
+            font-size: 0.95rem;
+            margin-top: 15px;
+            font-style: italic;
+        }
+
+        .reports-table-container {
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 24px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(244, 231, 218, 0.4);
+            overflow-x: auto;
+        }
+
+        .reports-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .reports-table th,
+        .reports-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(168, 185, 156, 0.2);
+        }
+
+        .reports-table th {
+            background: linear-gradient(135deg, rgba(168, 185, 156, 0.1), rgba(143, 166, 133, 0.1));
+            font-family: 'Crimson Text', serif;
+            font-weight: 600;
+            color: #5a6b4f;
+            font-size: 1.1rem;
+        }
+
+        .reports-table td {
+            color: #7a8471;
+            font-size: 0.95rem;
+        }
+
+        .reports-table tr:hover {
+            background: rgba(168, 185, 156, 0.05);
+        }
+
+        .reports-table select {
+            padding: 6px 10px;
+            border: 1px solid rgba(168, 185, 156, 0.4);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #5a6b4f;
+            font-size: 0.9rem;
+            min-width: 120px;
+        }
+
+        .reports-table select:focus {
+            outline: none;
+            border-color: #8fa685;
+            box-shadow: 0 0 0 2px rgba(143, 166, 133, 0.1);
+        }
+
+        .action-cell {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-small {
+            padding: 6px 12px;
+            font-size: 0.85rem;
+            border-radius: 10px;
+        }
+
+        .btn-map {
+            background: linear-gradient(135deg, #a8b99c, #8fa685);
+            color: white;
+        }
+
+        .btn-map:hover {
+            background: linear-gradient(135deg, #8fa685, #7a8471);
+            transform: translateY(-1px);
+        }
+
+        .btn-update {
+            background: linear-gradient(135deg, #c8a882, #d4b896);
+            color: white;
+        }
+
+        .btn-update:hover {
+            background: linear-gradient(135deg, #d4b896, #c8a882);
+            transform: translateY(-1px);
+        }
+
+        .status-message {
+            font-size: 0.8em;
+            margin-top: 5px;
+            padding: 3px 8px;
+            border-radius: 6px;
+            display: inline-block;
+        }
+
+        .status-success {
+            background: rgba(143, 166, 133, 0.1);
+            color: #5a6b4f;
+        }
+
+        .status-error {
+            background: rgba(212, 165, 116, 0.1);
+            color: #c8a882;
+        }
+
+        .digest-section {
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 24px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(244, 231, 218, 0.4);
+            text-align: center;
+        }
+
+        .digest-section h3 {
+            font-family: 'Crimson Text', serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #5a6b4f;
+            margin-bottom: 15px;
+        }
+
+        .digest-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+
+            .header-container,
+            .main-content {
+                padding: 20px;
+                margin: 0 auto 20px auto;
+                border-radius: 24px;
+            }
+
+            .page-header h1 {
+                font-size: 2rem;
+            }
+
+            .filters-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .filter-group {
+                width: 100%;
+            }
+
+            .filter-group select {
+                width: 100%;
+            }
+
+            .action-buttons,
+            .digest-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+
+            .reports-table-container {
+                padding: 15px;
+            }
+
+            .reports-table {
+                font-size: 0.85rem;
+            }
+
+            .action-cell {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        /* Accessibility improvements */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        .toast {
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            padding: 18px 28px;
+            border-radius: 16px;
+            color: white;
+            font-weight: 500;
+            z-index: 1000;
+            transform: translateX(400px);
+            transition: all 0.4s ease;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .toast.success {
+            background: linear-gradient(135deg, #8fa685, #7a8471);
+        }
+
+        .toast.error {
+            background: linear-gradient(135deg, #d4a574, #c8a882);
+        }
+
+        .toast.info {
+            background: linear-gradient(135deg, #a8b99c, #8fa685);
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-decoration"></div>
+    <div class="bg-decoration"></div>
+    <div class="bg-decoration"></div>
+
+    <div class="header-container">
+        <div class="page-header">
+            <h1>CivicReport Admin</h1>
+            <div class="header-decoration">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+            <p class="subtitle">Managing community reports and insights</p>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="admin-header">
+            <h2>Reports Management Dashboard</h2>
+            <p>Monitor, categorize, and manage community reports to ensure efficient resolution of civic issues.</p>
+        </div>
+
+        <div class="filters-section">
+            <h3>Filter Reports</h3>
+            <div class="filters-row">
+                <div class="filter-group">
+                    <label for="filter-status">Status:</label>
+                    <select id="filter-status">
+                        <option value="">All</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Resolved">Resolved</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="filter-category">Category:</label>
+                    <select id="filter-category">
+                        <option value="">All</option>
+                        <option value="garbage">Garbage</option>
+                        <option value="road damage">Road Damage</option>
+                        <option value="water leakage">Water Leakage</option>
+                        <option value="Uncategorized">Others</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn btn-primary" onclick="applyFilters()">
+                    <i class="fas fa-filter"></i>
+                    Apply Filters
+                </button>
+                <button class="btn btn-secondary" onclick="exportReports()">
+                    <i class="fas fa-file-csv"></i>
+                    Export CSV
+                </button>
+            </div>
+        </div>
+
+        <div class="clustering-section">
+            <h3>Smart Clustering</h3>
+            <p style="color: #7a8471; margin-bottom: 15px;">Group similar reports to identify patterns and prioritize resources.</p>
+            <button id="run-clustering-btn" class="btn btn-info">
+                <i class="fas fa-project-diagram"></i>
+                Run Clustering Analysis
+            </button>
+            <p id="clustering-status" class="clustering-status"></p>
+        </div>
+
+        <div class="reports-table-container">
+            <h3 style="font-family: 'Crimson Text', serif; font-size: 1.4rem; font-weight: 600; color: #5a6b4f; margin-bottom: 15px; text-align: center;">All Reports</h3>
+            
+            <table id="report-table" class="reports-table">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Location</th>
+                        <th>Category</th>
+                        <th>Status</th>
+                        <th>Cluster ID</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <div class="digest-section">
+            <h3>Weekly Digest</h3>
+            <p style="color: #7a8471; margin-bottom: 20px;">Generate and share comprehensive reports with stakeholders.</p>
+            <div class="digest-buttons">
+                <button class="btn btn-primary" onclick="downloadDigestPDF()">
+                    <i class="fas fa-file-pdf"></i>
+                    Download PDF Digest
+                </button>
+                <button class="btn btn-secondary" onclick="emailWeeklyDigest()">
+                    <i class="fas fa-envelope"></i>
+                    Email Weekly Digest
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+      let reports = [];
+let changes = {};
+
+document.getElementById("run-clustering-btn").onclick = async () => {
+    const response = await fetch("http://127.0.0.1:8000/admin/run-clustering", {
+        method: "POST"
+    });
+
+    const result = await response.json();
+    document.getElementById("clustering-status").innerText = result.message || "Done.";
+};
+
+async function fetchReports() {
+  const token = localStorage.getItem("token");
+  const res = await fetch("http://127.0.0.1:8000/reports", {
+    headers: { Authorization: "Bearer " + token },
+  });
+  reports = await res.json();
+  renderReports(reports);
+}
+
+function renderReports(data) {
+  const tbody = document.querySelector("#report-table tbody");
+  tbody.innerHTML = "";
+  data.forEach(report => {
+    const tr = document.createElement("tr");
+    const id = report.id;
+    tr.innerHTML = `
+      <td>${report.title}</td>
+      <td>${report.description}</td>
+      <td>${report.latitude.toFixed(3)}, ${report.longitude.toFixed(3)}</td>
+      <td>
+        <select onchange="trackChange(${id}, 'category', this.value)">
+          <option value="garbage" ${report.category === "garbage" ? "selected" : ""}>Garbage</option>
+          <option value="road damage" ${report.category === "road damage" ? "selected" : ""}>Road Damage</option>
+          <option value="water leakage" ${report.category === "water leakage" ? "selected" : ""}>Water Leakage</option>
+          <option value="Uncategorized" ${report.category === "Uncategorized" ? "selected" : ""}>Others</option>
+        </select>
+      </td>
+      <td>
+        <select onchange="trackChange(${id}, 'status', this.value)">
+          <option value="Pending" ${report.status === "Pending" ? "selected" : ""}>Pending</option>
+          <option value="Resolved" ${report.status === "Resolved" ? "selected" : ""}>Resolved</option>
+        </select>
+      </td>
+      <td>
+        <button onclick="viewOnMap(${report.latitude}, ${report.longitude})">Map</button>
+        <button onclick="submitUpdate(${id}, this)">Update</button>
+        <div id="msg-${id}" style="font-size: 0.8em; color: green;"></div>
+      </td>
+      <td>${report.cluster_id !== null && report.cluster_id !== undefined ? report.cluster_id : "-"}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+function trackChange(reportId, field, value) {
+  if (!changes[reportId]) changes[reportId] = {};
+  changes[reportId][field] = value;
+}
+
+async function submitUpdate(reportId, buttonElement) {
+  const token = localStorage.getItem("token");
+  const update = changes[reportId];
+  if (!update) return;
+
+  const msgDiv = document.getElementById(`msg-${reportId}`);
+
+  try {
+    if (update.status) {
+      await fetch(`http://127.0.0.1:8000/reports/${reportId}/status?status=${update.status}`, {
+        method: "PATCH",
+        headers: { Authorization: "Bearer " + token }
+      });
+    }
+
+    if (update.category) {
+      await fetch(`http://127.0.0.1:8000/reports/${reportId}/category?category=${update.category}`, {
+        method: "PATCH",
+        headers: { Authorization: "Bearer " + token }
+      });
+    }
+
+    delete changes[reportId];
+
+    // ✅ Show message first
+    msgDiv.style.color = "green";
+    msgDiv.textContent = "✅ Updated successfully!";
+
+    // ✅ Clear message & refresh after 2 seconds
+    setTimeout(() => {
+      msgDiv.textContent = "";
+      fetchReports();  // now safely refresh
+    }, 20000);
+
+  } catch (err) {
+    msgDiv.style.color = "red";
+    msgDiv.textContent = "❌ Update failed.";
+    setTimeout(() => msgDiv.textContent = "", 3000);
+  }
+}
+
+
+function applyFilters() {
+  const status = document.getElementById("filter-status").value;
+  const category = document.getElementById("filter-category").value;
+  const filtered = reports.filter(r =>
+    (!status || r.status === status) &&
+    (!category || r.category === category)
+  );
+  renderReports(filtered);
+}
+
+function viewOnMap(lat, lon) {
+  window.open(`https://www.google.com/maps?q=${lat},${lon}`, "_blank");
+}
+
+function exportReports() {
+  const headers = ["Title", "Description", "Latitude", "Longitude", "Category", "Status"];
+  const rows = reports.map(r => [
+    r.title,
+    r.description,
+    r.latitude,
+    r.longitude,
+    r.category,
+    r.status
+  ]);
+
+  let csv = headers.join(",") + "\n";
+  rows.forEach(row => {
+    csv += row.join(",") + "\n";
+  });
+
+  const blob = new Blob([csv], { type: "text/csv" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "reports.csv";
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+fetchReports();
+
+function downloadDigestPDF() {
+  const link = document.createElement('a');
+  link.href = 'http://127.0.0.1:8000/admin/digest-pdf';  // Use full URL
+  link.download = 'weekly_digest.pdf';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+function emailWeeklyDigest() {
+    console.log("Starting email digest request...");
+    
+    // Show loading message
+    const originalText = event.target.textContent;
+    event.target.textContent = "Sending...";
+    event.target.disabled = true;
+    
+    // Create a timeout promise
+    const timeoutPromise = new Promise((_, reject) => {
+        setTimeout(() => reject(new Error('Request timeout')), 30000); // 30 seconds
+    });
+    
+    // Create the fetch promise
+    const fetchPromise = fetch("http://127.0.0.1:8000/admin/send-digest", {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        mode: 'cors'
+    })
+    .then(res => {
+        console.log("Response status:", res.status);
+        if (!res.ok) {
+            return res.text().then(text => {
+                throw new Error(`HTTP ${res.status}: ${text}`);
+            });
+        }
+        return res.json();
+    });
+    
+    // Race between fetch and timeout
+    Promise.race([fetchPromise, timeoutPromise])
+    .then(data => {
+        console.log("Success response:", data);
+        alert(data.message || "✅ Email sent successfully!");
+    })
+    .catch(err => {
+        console.error("Error:", err);
+        
+        if (err.message.includes("timeout") || err.message.includes("failed to fetch") || err.message.includes("Failed to fetch")) {
+            alert("✅ Email is being sent in the background. Please check your email inbox and server logs to confirm delivery.");
+        } else {
+            alert(`❌ Failed to send email: ${err.message}`);
+        }
+    })
+    .finally(() => {
+        // Restore button
+        event.target.textContent = originalText;
+        event.target.disabled = false;
+    });
+}
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add gentle entry animation
+            const containers = document.querySelectorAll('.header-container, .main-content');
+            containers.forEach((container, index) => {
+                container.style.opacity = '0';
+                container.style.transform = 'translateY(40px) scale(0.98)';
+                
+                setTimeout(() => {
+                    container.style.transition = 'all 0.8s cubic-bezier(0.22, 1, 0.36, 1)';
+                    container.style.opacity = '1';
+                    container.style.transform = 'translateY(0) scale(1)';
+                }, 150 + (index * 100));
+            });
+        });
+
+        // Toast notification system
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            const icon = type === 'success' ? 'check-circle' : 
+                        type === 'error' ? 'exclamation-circle' : 'info-circle';
+            toast.innerHTML = `
+                <i class="fas fa-${icon}" style="margin-right: 8px;"></i>
+                ${message}
+            `;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => toast.classList.add('show'), 100);
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => document.body.removeChild(toast), 400);
+            }, 4500);
+        }
+
+    </script>
+</body>
+</html>

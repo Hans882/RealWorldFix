@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CivicReport - Make Your Community Better</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #c8d5b9 0%, #a8b99c 30%, #8fa685 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Organic background elements */
+        .bg-decoration {
+            position: absolute;
+            border-radius: 50% 40% 60% 30%;
+            background: rgba(255, 244, 230, 0.15);
+            backdrop-filter: blur(10px);
+            animation: organicFloat 8s ease-in-out infinite;
+        }
+
+        .bg-decoration:nth-child(1) {
+            width: 250px;
+            height: 200px;
+            top: 15%;
+            left: -5%;
+            animation-delay: 0s;
+            background: rgba(244, 231, 218, 0.2);
+        }
+
+        .bg-decoration:nth-child(2) {
+            width: 180px;
+            height: 220px;
+            bottom: 20%;
+            right: -8%;
+            animation-delay: -4s;
+            background: rgba(200, 213, 185, 0.25);
+        }
+
+        .bg-decoration:nth-child(3) {
+            width: 120px;
+            height: 140px;
+            top: 60%;
+            left: 10%;
+            animation-delay: -2s;
+            background: rgba(255, 244, 230, 0.18);
+        }
+
+        @keyframes organicFloat {
+            0%, 100% { 
+                transform: translateY(0) rotate(0deg) scale(1); 
+            }
+            25% { 
+                transform: translateY(-15px) rotate(2deg) scale(1.05); 
+            }
+            50% { 
+                transform: translateY(-25px) rotate(-1deg) scale(0.98); 
+            }
+            75% { 
+                transform: translateY(-10px) rotate(1deg) scale(1.02); 
+            }
+        }
+
+        .container {
+            background: rgba(255, 248, 240, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 32px;
+            padding: 50px 45px;
+            box-shadow: 
+                0 20px 40px rgba(139, 166, 133, 0.15),
+                0 8px 16px rgba(139, 166, 133, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            width: 100%;
+            max-width: 850px;
+            position: relative;
+            z-index: 10;
+            border: 1px solid rgba(244, 231, 218, 0.3);
+            transition: all 0.4s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-3px);
+            box-shadow: 
+                0 30px 60px rgba(139, 166, 133, 0.2),
+                0 12px 24px rgba(139, 166, 133, 0.15);
+        }
+
+
+.header-container {
+    background: rgba(255, 248, 240, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 32px;
+    padding: 25px 45px;
+    box-shadow: 
+        0 20px 40px rgba(139, 166, 133, 0.15),
+        0 8px 16px rgba(139, 166, 133, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    max-width: 1200px;
+    margin: 0 auto 30px auto;
+    border: 1px solid rgba(244, 231, 218, 0.3);
+    transition: all 0.4s ease;
+    position: relative;
+    z-index: 10;
+}
+
+.header-container:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+        0 25px 50px rgba(139, 166, 133, 0.2),
+        0 12px 24px rgba(139, 166, 133, 0.15);
+}
+
+.header-container::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    right: -1px;
+    bottom: -1px;
+    background: linear-gradient(135deg, rgba(244, 231, 218, 0.5), rgba(200, 213, 185, 0.3));
+    border-radius: 32px;
+    z-index: -1;
+    opacity: 0.6;
+}
+
+.page-header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.page-header h1 {
+    font-family: 'Crimson Text', serif;
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: #5a6b4f;
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+}
+
+.page-header .subtitle {
+    color: #7a8471;
+    font-size: 1.1rem;
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+    nav {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    flex-wrap: wrap;
+}
+
+nav a {
+    font-family: 'Crimson Text', serif;
+    font-weight: 600;
+    color: #5a6b4f;
+    text-decoration: none;
+    font-size: 1.1rem;
+    padding: 10px 18px;
+    border-radius: 16px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+nav a::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(168, 185, 156, 0.1), transparent);
+    transition: left 0.5s;
+}
+
+nav a:hover::before {
+    left: 100%;
+}
+
+nav a:hover {
+    background: linear-gradient(135deg, #a8b99c, #8fa685);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(168, 185, 156, 0.25);
+}
+
+        .header {
+            text-align: center;
+            margin-bottom: 45px;
+        }
+
+        .header h1 {
+            font-family: 'Crimson Text', serif;
+            font-size: 3rem;
+            font-weight: 600;
+            color: #5a6b4f;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        .header .subtitle {
+            color: #7a8471;
+            font-size: 1.15rem;
+            font-weight: 400;
+            line-height: 1.5;
+            max-width: 600px;
+            margin: 0 auto 8px auto;
+        }
+
+        .header-decoration {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin: 20px 0 15px;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #c8a882;
+        }
+
+        .dot:nth-child(2) {
+            background: #d4b896;
+            transform: scale(1.2);
+        }
+
+        .dot:nth-child(3) {
+            background: #a8b99c;
+        }
+
+        .form-group {
+            margin-bottom: 35px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            color: #5a6b4f;
+            margin-bottom: 12px;
+            font-size: 1rem;
+            font-family: 'Crimson Text', serif;
+        }
+
+        .file-upload-area {
+            border: 2px dashed #c8a882;
+            border-radius: 24px;
+            padding: 45px 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            background: linear-gradient(135deg, #f8f5f0 0%, #f4e7da 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .file-upload-area::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 30%, rgba(200, 168, 130, 0.1), transparent 50%);
+            pointer-events: none;
+        }
+
+        .file-upload-area:hover {
+            border-color: #a8b99c;
+            background: linear-gradient(135deg, #f4e7da 0%, #ede0d3 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(168, 185, 156, 0.15);
+        }
+
+        .file-upload-area.dragover {
+            border-color: #8fa685;
+            background: linear-gradient(135deg, #ede0d3 0%, #e6d7c8 100%);
+            transform: scale(1.01);
+        }
+
+        .file-upload-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .file-upload-icon {
+            font-size: 2.8rem;
+            color: #c8a882;
+            margin-bottom: 18px;
+            transition: all 0.3s ease;
+        }
+
+        .file-upload-area:hover .file-upload-icon {
+            color: #a8b99c;
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .file-upload-text {
+            font-size: 1.1rem;
+            color: #7a8471;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .file-upload-hint {
+            font-size: 0.9rem;
+            color: #9ca394;
+            font-style: italic;
+        }
+
+        #image {
+            display: none;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 18px 24px;
+            border: 2px solid #e8ddc7;
+            border-radius: 20px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, #fefcf8, #f8f5f0);
+            box-shadow: inset 0 2px 4px rgba(200, 168, 130, 0.08);
+            color: #5a6b4f;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .input-field::placeholder {
+            color: #a8a098;
+            font-style: italic;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: #c8a882;
+            box-shadow: 
+                0 0 0 3px rgba(200, 168, 130, 0.15),
+                inset 0 2px 4px rgba(200, 168, 130, 0.1);
+            background: #fefcf8;
+            transform: translateY(-1px);
+        }
+
+        .textarea-field {
+            min-height: 130px;
+            resize: vertical;
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 20px 30px;
+            background: linear-gradient(135deg, #8fa685 0%, #7a8471 100%);
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            font-family: 'Crimson Text', serif;
+            letter-spacing: 0.3px;
+            box-shadow: 0 6px 20px rgba(143, 166, 133, 0.25);
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .submit-btn:hover::before {
+            left: 100%;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(143, 166, 133, 0.35);
+            background: linear-gradient(135deg, #7a8471 0%, #6b7562 100%);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-text {
+            position: relative;
+            z-index: 2;
+        }
+
+        .btn-loading {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 3;
+        }
+
+        .spinner {
+            width: 22px;
+            height: 22px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top: 2px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .location-status {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 16px 20px;
+            background: linear-gradient(135deg, #f0f4ed, #e8f0e3);
+            border: 1px solid #c8d5b9;
+            border-radius: 16px;
+            margin-top: 25px;
+            color: #5a6b4f;
+            font-size: 0.95rem;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: all 0.4s ease;
+            font-style: italic;
+        }
+
+        .location-status.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .preview-container {
+            margin-top: 20px;
+            padding: 20px;
+            background: linear-gradient(135deg, #f8f5f0, #f4e7da);
+            border-radius: 16px;
+            border: 1px solid #e8ddc7;
+            display: none;
+            box-shadow: inset 0 2px 4px rgba(200, 168, 130, 0.08);
+        }
+
+        .preview-image {
+            max-width: 100%;
+            max-height: 220px;
+            border-radius: 12px;
+            object-fit: cover;
+            box-shadow: 0 4px 12px rgba(90, 107, 79, 0.15);
+        }
+
+        .preview-filename {
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: #7a8471;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-style: italic;
+        }
+
+        .toast {
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            padding: 18px 28px;
+            border-radius: 16px;
+            color: white;
+            font-weight: 500;
+            z-index: 1000;
+            transform: translateX(400px);
+            transition: all 0.4s ease;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .toast.success {
+            background: linear-gradient(135deg, #8fa685, #7a8471);
+        }
+
+        .toast.error {
+            background: linear-gradient(135deg, #d4a574, #c8a882);
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        /* Enhanced decorative elements */
+        .form-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #e8ddc7, transparent);
+            margin: 30px 0;
+        }
+
+        .input-icon {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #c8a882;
+            font-size: 1rem;
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        .form-group {
+            position: relative;
+        }
+
+        .form-group.has-icon .input-field {
+            padding-right: 50px;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 35px 25px;
+                margin: 15px;
+                border-radius: 24px;
+            }
+
+            .header h1 {
+                font-size: 2.2rem;
+            }
+
+            .file-upload-area {
+                padding: 35px 20px;
+            }
+
+            .file-upload-icon {
+                font-size: 2.4rem;
+            }
+
+            .input-field {
+                padding: 16px 20px;
+            }
+        }
+
+        /* Accessibility improvements */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        /* Additional organic touches */
+        .input-field:hover {
+            border-color: #d4b896;
+            box-shadow: inset 0 2px 4px rgba(200, 168, 130, 0.12);
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: -1px;
+            right: -1px;
+            bottom: -1px;
+            background: linear-gradient(135deg, rgba(244, 231, 218, 0.5), rgba(200, 213, 185, 0.3));
+            border-radius: 32px;
+            z-index: -1;
+            opacity: 0.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-decoration"></div>
+    <div class="bg-decoration"></div>
+    <div class="bg-decoration"></div>
+     <div class="container">
+    <div class="header">
+        <h1>Submit Report</h1>
+        <div class="header-decoration">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+        <p class="subtitle">Help nurture your community by reporting civic issues with care</p>
+    </div>
+
+    <nav>
+        <a href="index.html">
+            <i class="fas fa-home" style="margin-right: 6px;"></i>
+            Home
+        </a>
+        <a href="map.html">
+            <i class="fas fa-map-marked-alt" style="margin-right: 6px;"></i>
+            Map
+        </a>
+        <a href="report.html">
+            <i class="fas fa-plus-circle" style="margin-right: 6px;"></i>
+            Submit Report
+        </a>
+        <a href="profile.html">
+            <i class="fas fa-user-circle" style="margin-right: 6px;"></i>
+            Profile
+        </a>
+        <a href="#" onclick="logout()">
+            <i class="fas fa-sign-out-alt" style="margin-right: 6px;"></i>
+            Logout
+        </a>
+    </nav>
+
+
+        <form id="report-form">
+            <div class="form-group">
+                <label for="image">
+                    <i class="fas fa-camera" style="margin-right: 8px; margin-top: 10px;"></i>Share Photo Evidence
+                </label>
+                <div class="file-upload-area" onclick="document.getElementById('image').click()">
+                    <div class="file-upload-content">
+                        <div class="file-upload-icon">
+                            <i class="fas fa-leaf"></i>
+                        </div>
+                        <div class="file-upload-text">Click to upload or gently drag and drop</div>
+                        <div class="file-upload-hint">PNG, JPG, GIF up to 10MB</div>
+                    </div>
+                </div>
+                <input type="file" id="image" accept="image/*" required />
+                <div class="preview-container" id="preview-container">
+                    <img class="preview-image" id="preview-image" alt="Preview">
+                    <div class="preview-filename" id="preview-filename">
+                        <i class="fas fa-file-image"></i>
+                        <span></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-divider"></div>
+
+            <div class="form-group has-icon">
+                <label for="title">
+                    <i class="fas fa-seedling" style="margin-right: 8px;"></i>What's the Issue?
+                </label>
+                <input 
+                    type="text" 
+                    id="title" 
+                    class="input-field" 
+                    placeholder="e.g., Large pothole disrupting Main Street flow" 
+                    required 
+                />
+                <i class="fas fa-pen-fancy input-icon"></i>
+            </div>
+
+            <div class="form-group has-icon">
+                <label for="category">Category</label>
+                <select id="category" required class="input-field">
+                    <option value="">-- Select or confirm category --</option>
+                    <option value="garbage">Garbage</option>
+                    <option value="road">Road Damage</option>
+                    <option value="flood">Flood</option>
+                    <option value="uncategorized">Uncategorized</option>
+                </select>
+                <div id="predicted-hint" style="font-size: 0.85em; color: #987; margin-top: 5px;"></div>
+            </div>
+
+            <div class="form-group has-icon">
+                <label for="description">
+                    <i class="fas fa-feather-alt" style="margin-right: 8px;"></i>Tell the Story
+                </label>
+                <textarea 
+                    id="description" 
+                    class="input-field textarea-field" 
+                    placeholder="Paint a picture of how this issue affects your neighborhood and community life..."
+                    required
+                ></textarea>
+                <i class="fas fa-heart input-icon" style="top: 25px;"></i>
+            </div>
+
+            <button type="button" class="submit-btn" onclick="submitReport()">
+                <span class="btn-text">
+                    <i class="fas fa-paper-plane" style="margin-right: 8px;"></i>Share with Community
+                </span>
+                <div class="btn-loading">
+                    <div class="spinner"></div>
+                </div>
+            </button>
+
+            <div class="location-status" id="location-status">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>Your location will be lovingly captured when you share</span>
+            </div>
+        </form>
+     </div>
+    </div>
+
+    <script>
+        async function checkToken() {
+            const token = localStorage.getItem("token");
+            if (!token) {
+                window.location.href = "login.html";
+                return;
+            }
+            try {
+                const response = await fetch("http://127.0.0.1:8000/me", {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+                if (!response.ok) {
+                    localStorage.removeItem("token");
+                    window.location.href = "login.html";
+                }
+            } catch (error) {
+                console.error("Error verifying token:", error);
+                localStorage.removeItem("token");
+                window.location.href = "login.html";
+            }
+        }
+        checkToken();
+
+        // File upload handling with drag and drop
+        const fileUploadArea = document.querySelector('.file-upload-area');
+        const fileInput = document.getElementById('image');
+        const previewContainer = document.getElementById('preview-container');
+        const previewImage = document.getElementById('preview-image');
+        const previewFilename = document.querySelector('#preview-filename span');
+
+        // Drag and drop functionality
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            fileUploadArea.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults (e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            fileUploadArea.addEventListener(eventName, highlight, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            fileUploadArea.addEventListener(eventName, unhighlight, false);
+        });
+
+        function highlight(e) {
+            fileUploadArea.classList.add('dragover');
+        }
+
+        function unhighlight(e) {
+            fileUploadArea.classList.remove('dragover');
+        }
+
+        fileUploadArea.addEventListener('drop', handleDrop, false);
+
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            
+            if (files.length > 0) {
+                fileInput.files = files;
+                handleFileSelect();
+            }
+        }
+
+        // File input change handler
+        fileInput.addEventListener('change', async function() {
+            handleFileSelect();
+
+            const token = localStorage.getItem("token");
+            if (!token) {
+                return;
+            }
+
+            const file = fileInput.files[0];
+            if (file) {
+                try {
+                    const category = await getPredictedCategory(file, token);
+                    const categorySelect = document.getElementById("category");
+                    categorySelect.value = category;
+                    document.getElementById("predicted-hint").innerText = `Predicted category: ${category.replace('_', ' ')}`;
+                } catch (error) {
+                    console.error("Prediction error:", error);
+                    document.getElementById("predicted-hint").innerText = "";
+                }
+            }
+        });
+
+        function handleFileSelect() {
+            const file = fileInput.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewImage.src = e.target.result;
+                    previewFilename.textContent = file.name;
+                    previewContainer.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Show location status when form is interacted with
+        document.getElementById('report-form').addEventListener('input', function() {
+            const locationStatus = document.getElementById('location-status');
+            if (!locationStatus.classList.contains('show')) {
+                locationStatus.classList.add('show');
+            }
+        });
+
+        // Toast notification system
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+                ${message}
+            `;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => toast.classList.add('show'), 100);
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => document.body.removeChild(toast), 400);
+            }, 4500);
+        }
+
+        async function getPredictedCategory(imageFile, token) {
+    const formData = new FormData();
+    formData.append("file", imageFile);
+
+    const response = await fetch("http://127.0.0.1:8000/predict", {
+        method: "POST",
+        headers: {
+            Authorization: `Bearer ${token}`
+        },
+        body: formData
+    });
+
+    if (!response.ok) {
+        throw new Error("Category prediction failed");
+    }
+
+    const result = await response.json();
+    return result.prediction;
+}
+
+
+        // Enhanced submit function with better UX
+        async function submitReport() {
+            const image = document.getElementById("image").files[0];
+            const title = document.getElementById("title").value;
+            const description = document.getElementById("description").value;
+            const submitBtn = document.querySelector('.submit-btn');
+            const btnText = document.querySelector('.btn-text');
+            const btnLoading = document.querySelector('.btn-loading');
+            
+            // Basic validation
+            if (!image || !title.trim() || !description.trim()) {
+                showToast('Please fill in all fields and share an image', 'error');
+                return;
+            }
+
+            // Check for stored token (keeping original localStorage logic)
+            const token = localStorage.getItem("token");
+            if (!token) {
+                showToast("Please sign in to share your community report", 'error');
+                setTimeout(() => {
+                    window.location.href = "login.html";
+                }, 2000);
+                return;
+            }
+
+            // Show loading state
+            submitBtn.disabled = true;
+            btnText.style.opacity = '0';
+            btnLoading.style.display = 'block';
+
+            try {
+                // Get geolocation
+                const position = await new Promise((resolve, reject) => {
+                    navigator.geolocation.getCurrentPosition(resolve, reject, {
+                        timeout: 10000,
+                        enableHighAccuracy: true
+                    });
+                });
+
+                const latitude = position.coords.latitude;
+                const longitude = position.coords.longitude;
+                // Remove prediction fetch and dropdown update here to avoid overwriting user's selection
+
+                const formData = new FormData();
+                formData.append("title", title);
+                formData.append("description", description);
+                formData.append("latitude", latitude);
+                formData.append("longitude", longitude);
+                const selectedCategory = document.getElementById("category").value;
+                console.log("Selected category to submit:", selectedCategory);
+                formData.append("category", selectedCategory);
+                formData.append("image", image);
+
+                const response = await fetch("http://127.0.0.1:8000/submit-report", {
+                    method: "POST",
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    },
+                    body: formData
+                });
+
+                const result = await response.json();
+                
+                if (response.ok) {
+                    showToast("Your community report has been lovingly shared! Thank you for caring.", 'success');
+                    
+                    // Reset form after successful submission
+                    setTimeout(() => {
+                        document.getElementById('report-form').reset();
+                        previewContainer.style.display = 'none';
+                        document.getElementById('location-status').classList.remove('show');
+                    }, 2000);
+                } else {
+                    throw new Error(result.detail || 'Failed to share your report');
+                }
+            } catch (error) {
+    console.error("Error during report submission:", error);
+    
+    if (error.code === error.PERMISSION_DENIED) {
+        showToast("We need location access to help your community. Please enable and try again.", 'error');
+    } else if (error.code === error.TIMEOUT) {
+        showToast("Location request took too long. Please try again gently.", 'error');
+    } else {
+        showToast(`Something went wrong: ${error.message}`, 'error');
+    }
+
+            } finally {
+                // Reset loading state
+                submitBtn.disabled = false;
+                btnText.style.opacity = '1';
+                btnLoading.style.display = 'none';
+            }
+        }
+
+        // Form validation and real-time feedback
+        const inputs = document.querySelectorAll('.input-field');
+        inputs.forEach(input => {
+            input.addEventListener('blur', function() {
+                if (this.value.trim() === '' && this.hasAttribute('required')) {
+                    this.style.borderColor = '#d4a574';
+                    this.style.boxShadow = '0 0 0 3px rgba(212, 165, 116, 0.15)';
+                } else {
+                    this.style.borderColor = '#e8ddc7';
+                    this.style.boxShadow = 'inset 0 2px 4px rgba(200, 168, 130, 0.08)';
+                }
+            });
+
+            input.addEventListener('input', function() {
+                if (this.style.borderColor === 'rgb(212, 165, 116)') {
+                    this.style.borderColor = '#e8ddc7';
+                    this.style.boxShadow = 'inset 0 2px 4px rgba(200, 168, 130, 0.08)';
+                }
+            });
+        });
+
+        // Update predicted hint when user changes category manually
+        const categorySelect = document.getElementById("category");
+        categorySelect.addEventListener("change", function() {
+            const predictedHint = document.getElementById("predicted-hint");
+            if (this.value === "") {
+                predictedHint.innerText = "";
+            } else {
+                predictedHint.innerText = `Selected category: ${this.value.replace('_', ' ')}`;
+            }
+        });
+
+        // Add gentle entry animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const container = document.querySelector('.container');
+            container.style.opacity = '0';
+            container.style.transform = 'translateY(40px) scale(0.95)';
+            
+            setTimeout(() => {
+                container.style.transition = 'all 0.8s cubic-bezier(0.22, 1, 0.36, 1)';
+                container.style.opacity = '1';
+                container.style.transform = 'translateY(0) scale(1)';
+            }, 150);
+        });
+
+    function logout() {
+    localStorage.removeItem("token");
+    showToast("Thank you for caring about your community!", 'success');
+    setTimeout(() => {
+        window.location.href = "login.html";
+    }, 1500);
+}
+    </script>
+</body>
+</html>
