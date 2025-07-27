@@ -74,7 +74,6 @@ CivicReport transforms how communities address civic problems by creating a tran
 | **NLP Processing** | HuggingFace Transformers, spaCy, Sentence-BERT |
 | **Mapping** | Mapbox / Leaflet / Google Maps API |
 | **Authentication** | Firebase Auth / OAuth2 |
-| **Task Queue** | Celery + Redis |
 
 ## 📊 Database Schema
 
@@ -100,7 +99,6 @@ Authority(id, name, email, jurisdiction_area, contact_info)
 - Python 3.8+
 - Node.js 16+
 - PostgreSQL 12+ with PostGIS extension
-- Redis server
 
 ### Installation
 
@@ -133,7 +131,6 @@ Authority(id, name, email, jurisdiction_area, contact_info)
 ### Environment Variables
 ```env
 DATABASE_URL=postgresql://user:password@localhost/civicreport
-REDIS_URL=redis://localhost:6379
 MAPBOX_ACCESS_TOKEN=your_mapbox_token
 AWS_ACCESS_KEY_ID=your_aws_key
 AWS_SECRET_ACCESS_KEY=your_aws_secret
